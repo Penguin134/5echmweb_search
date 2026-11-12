@@ -24,10 +24,10 @@ module.exports = {
   dataPath: process.env.DATA_JS_PATH || path.join(__dirname, "data.js"),
   githubFileUrl:
     process.env.GITHUB_DATA_URL ||
-    "https://raw.githubusercontent.com/DND5eChm/5echmweb_search/refs/heads/index/data.js",
+    "https://raw.githubusercontent.com/Penguin134/5echmweb_search/refs/heads/index/data.js",
   githubApiUrl: process.env.GITHUB_CONTENT_API_URL || "",
   downloadUrl:
     process.env.DATA_DOWNLOAD_URL ||
-    "https://sealchat-update.aivu.top/https://raw.githubusercontent.com/DND5eChm/5echmweb_search/refs/heads/index/data.js.zip",
+    "https://sealchat-update.aivu.top/https://raw.githubusercontent.com/Penguin134/5echmweb_search/refs/heads/index/data.js.zip",
   updateIntervalMs,
 };
