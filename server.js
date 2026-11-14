@@ -608,11 +608,15 @@ const dataUpdater = createDataUpdater({
   downloadUrl: config.downloadUrl,
   githubToken: config.githubToken,
   updateIntervalMs: config.updateIntervalMs,
+  remoteSyncEnabled: config.remoteSyncEnabled,
   reload: loadSearchData,
 });
 
 // GitHub Webhook 标准入口。收到事件后立即执行 SHA 检查与更新。
 app.post(config.webhookPath, async (req, res) => {
+  if (!config.remoteSyncEnabled) {
+    return res.status(403).json({ ok: false, error: "远程同步已禁用" });
+  }
   if (!verifyGithubWebhookSignature(req)) {
     return res.status(401).json({ error: "Webhook 签名无效" });
   }
@@ -633,8 +637,8 @@ app.post(config.webhookPath, async (req, res) => {
 });
 
 function startServer() {
-  app.listen(PORT, () => {
-    console.log(`服务器运行在 http://localhost:${PORT}`);
+  app.listen(PORT, config.host, () => {
+    console.log(`服务器运行在 http://${config.host}:${PORT}`);
   });
 }
 

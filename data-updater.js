@@ -284,6 +284,7 @@ function createDataUpdater(options) {
     downloadUrl,
     githubToken = "",
     updateIntervalMs = 0,
+    remoteSyncEnabled = true,
     reload,
     logger = console,
   } = options;
@@ -443,7 +444,12 @@ function createDataUpdater(options) {
   }
 
   function start() {
+    restoreLocalZip();
     watchDataFile();
+    if (!remoteSyncEnabled) {
+      logger.log("已禁用远程索引同步，仅使用本地 data.js 并监听文件变更");
+      return Promise.resolve({ updated: false, reason: "remote-sync-disabled" });
+    }
     if (updateIntervalMs > 0) {
       intervalHandle = setInterval(() => {
         checkForUpdate("interval").catch((error) =>
